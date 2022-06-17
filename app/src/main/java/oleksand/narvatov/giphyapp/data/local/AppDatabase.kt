@@ -12,7 +12,7 @@ import oleksand.narvatov.giphyapp.model.local.RemoteKey
         RemoteKey::class,
         Giphy::class,
     ],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 abstract class AppDatabase : RoomDatabase() {

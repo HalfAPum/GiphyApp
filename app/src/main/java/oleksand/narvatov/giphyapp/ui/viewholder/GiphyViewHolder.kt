@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import oleksand.narvatov.giphyapp.databinding.GiphyItemLayoutBinding
 import oleksand.narvatov.giphyapp.model.local.Giphy
-import timber.log.Timber
+import oleksand.narvatov.giphyapp.utils.loadGif
+
 
 class GiphyViewHolder(private val binding: GiphyItemLayoutBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun update(item: Giphy) {
-        Timber.d("tag1 WTF ${item}")
-//        binding.passengerName.text = item.name
+        binding.gifView.loadGif(item.url)
     }
 
     companion object {

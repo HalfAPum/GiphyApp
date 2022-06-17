@@ -11,6 +11,16 @@ data class GiphyResponse(
 data class GiphyItem(
     @SerializedName("id")
     val id: String,
+    @SerializedName("images")
+    val images: Images,
+)
+
+data class Images(
+    @SerializedName("preview_gif")
+    val downsizedSmall: DownsizedSmall,
+)
+
+data class DownsizedSmall(
     @SerializedName("url")
-    val url: String,
+    val url: String?,
 )
