@@ -1,16 +1,14 @@
 package oleksand.narvatov.giphyapp.utils
 
-import android.content.Context
-import android.net.ConnectivityManager
 import android.widget.ImageView
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.paging.CombinedLoadStates
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import com.bumptech.glide.Glide
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import timber.log.Timber
-
 
 fun ImageView.loadGif(
     url: String
@@ -35,4 +33,34 @@ private fun <T : Any> MutablePagingSharedFlow() = MutableSharedFlow<T>(
 
 val errorHandler = CoroutineExceptionHandler { _, throwable ->
     Timber.d(throwable)
+}
+
+fun CombinedLoadStates.finishedLoadFromServer(): Boolean {
+    return refresh.endOfPaginationReached.not()
+        && refresh is LoadState.NotLoading
+
+        && prepend.endOfPaginationReached
+        && prepend is LoadState.NotLoading
+
+        && append.endOfPaginationReached.not()
+        && append is LoadState.NotLoading
+
+
+        && source.refresh.endOfPaginationReached.not()
+        && source.refresh is LoadState.NotLoading
+
+        && source.prepend.endOfPaginationReached
+        && source.prepend is LoadState.NotLoading
+
+        && source.append.endOfPaginationReached.not()
+        && source.append is LoadState.NotLoading
+
+
+        && mediator?.prepend?.endOfPaginationReached == true
+        && mediator?.prepend is LoadState.NotLoading
+}
+
+fun CombinedLoadStates.finishedLoadFromCache(): Boolean {
+    return append.endOfPaginationReached
+        && append is LoadState.NotLoading
 }

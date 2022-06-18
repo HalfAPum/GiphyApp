@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
-  android:id="@+id/main">
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main"
+  app:startDestination="@id/gifListFragment">
 
+  <fragment
+    android:id="@+id/gifListFragment"
+    android:name="oleksand.narvatov.giphyapp.ui.fragment.GifListFragment"
+    android:label="fragment_gif_list"
+    tools:layout="@layout/fragment_gif_list" >
+    <action
+      android:id="@+id/to_largeGif"
+      app:destination="@id/largeGifFragment" />
+  </fragment>
+  <fragment
+    android:id="@+id/largeGifFragment"
+    android:name="oleksand.narvatov.giphyapp.ui.fragment.LargeGifFragment"
+    android:label="fragment_large_gif"
+    tools:layout="@layout/fragment_large_gif" >
+    <argument
+      android:name="query"
+      app:argType="string" />
+  </fragment>
 </navigation>

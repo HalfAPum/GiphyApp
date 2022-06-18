@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.RemoteMediator
+import androidx.paging.cachedIn
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import oleksand.narvatov.giphyapp.utils.Dispatchers
@@ -28,7 +29,8 @@ abstract class PagingViewModel<T : Any> : ViewModel() {
      * Transform paging [Flow] to [pagingData].
      */
     fun Flow<PagingData<T>>.collectPaging() {
-        onEach(_pagingData::emit)
+        cachedIn(viewModelScope)
+            .onEach(_pagingData::emit)
             .flowOn(errorHandler + dispatchers.IO)
             .launchIn(viewModelScope)
             .assignJob()
