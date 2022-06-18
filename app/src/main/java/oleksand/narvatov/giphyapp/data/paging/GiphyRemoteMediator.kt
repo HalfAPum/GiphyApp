@@ -4,6 +4,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemoteKeyDao
 import oleksand.narvatov.giphyapp.data.remote.helper.GiphySearchPagingApiHelper
@@ -13,13 +15,13 @@ import oleksand.narvatov.giphyapp.model.local.RemoteKey
 import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
-class GiphyRemoteMediator @Inject constructor(
+class GiphyRemoteMediator @AssistedInject constructor(
     private val giphyDao: GiphyDao,
     private val remoteKeyDao: RemoteKeyDao,
     private val pagingApiHelper: SearchPagingApiHelper<Giphy>,
+    @Assisted
+    private val query: String,
 ) : RemoteMediator<Int, Giphy>() {
-    //TODO REALLY TEMP REMOVE IT
-    public var query: String = ""
 
     override suspend fun load(
         loadType: LoadType,

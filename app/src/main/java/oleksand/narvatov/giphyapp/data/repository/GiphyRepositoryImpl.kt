@@ -14,6 +14,7 @@ import oleksand.narvatov.giphyapp.data.local.helper.RemoveGifDaoHelper
 import oleksand.narvatov.giphyapp.data.paging.GiphyRemoteMediator
 import oleksand.narvatov.giphyapp.data.repository.base.AbsRepository
 import oleksand.narvatov.giphyapp.data.repository.base.GiphyRepository
+import oleksand.narvatov.giphyapp.di.factory.GiphyRemoteMediatorFactory
 import oleksand.narvatov.giphyapp.model.local.Giphy
 import oleksand.narvatov.giphyapp.model.local.RemovedGiphy
 import timber.log.Timber
@@ -21,7 +22,7 @@ import javax.inject.Inject
 
 @OptIn(ExperimentalPagingApi::class)
 class GiphyRepositoryImpl @Inject constructor(
-    private val giphyRemoteMediator: GiphyRemoteMediator,
+    private val giphyRemoteMediatorFactory: GiphyRemoteMediatorFactory,
     private val giphyDao: GiphyDao,
     private val getRemovedGifsIdsDaoHelper: GetRemovedGifsIdsDaoHelper,
     private val removeGifDaoHelper: RemoveGifDaoHelper,
@@ -32,7 +33,7 @@ class GiphyRepositoryImpl @Inject constructor(
         config: PagingConfig,
     ) = Pager(
         config = config,
-        remoteMediator = giphyRemoteMediator.apply { this.query = query },
+        remoteMediator = giphyRemoteMediatorFactory.create(query),
         pagingSourceFactory = { giphyDao.getPagingSource() },
     ).flow
 
