@@ -11,8 +11,15 @@ class GiphyPagingAdapter @Inject constructor(
     giphyDiffUtil: GiphyDiffUtil
 ): PagingDataAdapter<Giphy, GiphyViewHolder>(giphyDiffUtil) {
 
+    var onDeleteListener: (Giphy) -> Unit = {}
+
     override fun onBindViewHolder(holder: GiphyViewHolder, position: Int) {
-        getItem(position)?.let { holder.update(it) }
+        getItem(position)?.let { giphy ->
+            holder.update(giphy)
+            holder.setOnDeleteListener {
+                onDeleteListener(giphy)
+            }
+        }
     }
 
     override fun onCreateViewHolder(

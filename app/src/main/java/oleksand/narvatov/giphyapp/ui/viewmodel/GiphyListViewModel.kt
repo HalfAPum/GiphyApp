@@ -14,12 +14,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GiphyListViewModel @Inject constructor(
-    private val searchPagingGifsUseCase: SearchPagingGifsUseCase
+    private val searchPagingGifsUseCase: SearchPagingGifsUseCase,
+    private val giphyRepository: GiphyRepository,
 ): PagingViewModel<Giphy>() {
 
     fun searchGifs(query: String = "") {
         viewModelScope.launch {
             searchPagingGifsUseCase(query).collectPaging()
+        }
+    }
+
+    fun removeGif(giphy: Giphy) {
+        viewModelScope.launch {
+            giphyRepository.removeGif(giphy)
         }
     }
 

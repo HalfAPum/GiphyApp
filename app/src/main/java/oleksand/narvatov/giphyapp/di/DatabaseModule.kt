@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import oleksand.narvatov.giphyapp.data.local.AppDatabase
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemoteKeyDao
+import oleksand.narvatov.giphyapp.data.local.dao.RemovedGiphyDao
 import javax.inject.Singleton
 
 @Module
@@ -39,5 +40,10 @@ object DatabaseModule {
     fun provideGiphyDao(
         appDatabase: AppDatabase
     ): GiphyDao = appDatabase.getGiphyDao()
+
+    @Provides
+    fun provideRemovedGiphyDao(
+        appDatabase: AppDatabase
+    ): RemovedGiphyDao = appDatabase.getRemovedGiphyDao()
 
 }

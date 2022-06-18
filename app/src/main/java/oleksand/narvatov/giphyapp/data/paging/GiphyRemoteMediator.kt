@@ -36,16 +36,7 @@ class GiphyRemoteMediator @Inject constructor(
         runCatchingMediator {
             val serverData = loadDataFromRemote(page, limit)
 
-            clearCache(loadType)
-
             serverData.saveToDatabase(page)
-        }
-    }
-
-    private suspend fun clearCache(loadType: LoadType) {
-        if (loadType == LoadType.REFRESH) {
-            giphyDao.clear()
-            remoteKeyDao.clear()
         }
     }
 

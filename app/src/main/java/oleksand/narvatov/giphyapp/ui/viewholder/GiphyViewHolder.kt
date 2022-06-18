@@ -15,6 +15,10 @@ class GiphyViewHolder(private val binding: GiphyItemLayoutBinding) :
         binding.gifView.loadGif(item.url)
     }
 
+    fun setOnDeleteListener(listener: () -> Unit) {
+        binding.deleteButton.setOnClickListener { listener() }
+    }
+
     companion object {
 
         //todo di

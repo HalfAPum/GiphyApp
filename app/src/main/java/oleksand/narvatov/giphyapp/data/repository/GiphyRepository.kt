@@ -6,8 +6,12 @@ import androidx.paging.PagingConfig
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.withContext
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
+import oleksand.narvatov.giphyapp.data.local.dao.RemoteKeyDao
+import oleksand.narvatov.giphyapp.data.local.dao.RemovedGiphyDao
 import oleksand.narvatov.giphyapp.data.paging.GiphyRemoteMediator
 import oleksand.narvatov.giphyapp.data.repository.base.AbsRepository
+import oleksand.narvatov.giphyapp.model.local.Giphy
+import oleksand.narvatov.giphyapp.model.local.RemovedGiphy
 import javax.inject.Inject
 
 @ViewModelScoped
@@ -15,6 +19,7 @@ import javax.inject.Inject
 class GiphyRepository @Inject constructor(
     private val giphyRemoteMediator: GiphyRemoteMediator,
     private val giphyDao: GiphyDao,
+    private val removedGiphyDao: RemovedGiphyDao,
 ) : AbsRepository() {
 
     fun searchGifs(
@@ -28,6 +33,15 @@ class GiphyRepository @Inject constructor(
 
     suspend fun clearKeys() = withContext(dispatchers.IO) {
         giphyDao.clear()
+    }
+
+    suspend fun getRemovedGifsIds() = withContext(dispatchers.IO) {
+        removedGiphyDao.getAll().map { it.id }
+    }
+
+    suspend fun removeGif(giphy: Giphy) = withContext(dispatchers.IO) {
+        removedGiphyDao.insert(RemovedGiphy(giphy.id))
+        giphyDao.remove(giphy)
     }
 
 }

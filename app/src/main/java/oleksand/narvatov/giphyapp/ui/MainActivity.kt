@@ -16,6 +16,7 @@ import oleksand.narvatov.giphyapp.R
 import oleksand.narvatov.giphyapp.data.remote.api.GiphyApi
 import oleksand.narvatov.giphyapp.databinding.ActivityMainBinding
 import oleksand.narvatov.giphyapp.ui.adapter.GiphyPagingAdapter
+import oleksand.narvatov.giphyapp.ui.decorator.GridItemDecorator
 import oleksand.narvatov.giphyapp.ui.viewmodel.GiphyListViewModel
 import javax.inject.Inject
 
@@ -35,7 +36,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        binding.recyclerView.addItemDecoration(
+            GridItemDecorator(
+                GRID_SIZE,
+                resources.getDimensionPixelOffset(R.dimen.medium_padding)
+            )
+        )
+        binding.recyclerView.layoutManager = GridLayoutManager(this, GRID_SIZE)
         binding.recyclerView.adapter = giphyPagingAdapter
+        giphyPagingAdapter.onDeleteListener = {
+            viewModel.removeGif(it)
+        }
         viewModel.searchGifs()
         lifecycleScope.launchWhenStarted {
             viewModel.pagingData.collectLatest { pagingData ->
@@ -57,12 +69,16 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                viewModel.searchGifs(newText ?: "")
+                viewModel.searchGifs(newText ?: "Error")
                 return true
             }
 
         })
 
         return super.onCreateOptionsMenu(menu)
+    }
+
+    companion object {
+        private const val GRID_SIZE = 2
     }
 }

@@ -4,9 +4,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.filter
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.transform
 import oleksand.narvatov.giphyapp.data.repository.GiphyRepository
 import oleksand.narvatov.giphyapp.model.local.Giphy
 import javax.inject.Inject
@@ -23,16 +21,16 @@ class SearchPagingGifsUseCase @Inject constructor(
             giphyRepository.clearKeys()
         }
 
+        val removedGifsIds = giphyRepository.getRemovedGifsIds()
+
         return giphyRepository.searchGifs(
             query,
             PagingConfig(pageSize)
-        )
-//            .map {
-//            it.filter {
-//                // TODO: DELETE LSIT
-//                true
-//            }
-//        }
+        ).map {
+            it.filter { giphy ->
+                removedGifsIds.contains(giphy.id).not()
+            }
+        }
     }
 
     companion object {
