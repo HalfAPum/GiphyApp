@@ -11,4 +11,5 @@ interface RemovedGiphyDao : InsertDao<RemovedGiphy> {
 
     @Query("SELECT * FROM RemovedGiphy")
     suspend fun getAll() : List<RemovedGiphy>
+
 }

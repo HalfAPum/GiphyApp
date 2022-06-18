@@ -1,15 +1,16 @@
 package oleksand.narvatov.giphyapp.data.remote.helper
 
 import oleksand.narvatov.giphyapp.data.remote.api.GiphyApi
+import oleksand.narvatov.giphyapp.data.remote.helper.base.SearchPagingApiHelper
 import oleksand.narvatov.giphyapp.data.remote.mapper.toLocalGiphy
 import oleksand.narvatov.giphyapp.model.local.Giphy
 import javax.inject.Inject
 
-class GiphyApiHelper @Inject constructor(
+class GiphySearchPagingApiHelper @Inject constructor(
     private val giphyApi: GiphyApi,
-) {
+) : SearchPagingApiHelper<Giphy> {
 
-    suspend fun searchGifs(
+    override suspend fun search(
         query: String,
         offset: Int,
         limit: Int,

@@ -59,7 +59,6 @@ class GifListFragment : Fragment(R.layout.fragment_gif_list) {
             }
 
             override fun onQueryTextChange(newText: String?) = false
-
         })
 
         with(binding.recyclerView) {

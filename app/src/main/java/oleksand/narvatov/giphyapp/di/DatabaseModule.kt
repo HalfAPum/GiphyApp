@@ -7,9 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import oleksand.narvatov.giphyapp.data.local.AppDatabase
+import oleksand.narvatov.giphyapp.data.local.TransactionManager
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemoteKeyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemovedGiphyDao
@@ -26,9 +25,11 @@ object DatabaseModule {
             applicationContext,
             AppDatabase::class.java,
             "GiphyDatabase"
-            // TODO: remore destrucitve migrations
-        ).fallbackToDestructiveMigration().build()
+        ).build()
     }
+
+    @Provides
+    fun provideTransactionManager(appDatabase: AppDatabase): TransactionManager = appDatabase
 
 
     @Provides

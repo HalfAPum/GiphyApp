@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class GiphyResponse(
     @SerializedName("data")
     val giphyItems: List<GiphyItem>,
-    // TODO: Add errors data
 )
 
 data class GiphyItem(

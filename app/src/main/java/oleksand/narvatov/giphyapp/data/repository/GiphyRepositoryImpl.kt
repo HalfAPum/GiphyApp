@@ -13,21 +13,21 @@ import oleksand.narvatov.giphyapp.data.local.helper.GetRemovedGifsIdsDaoHelper
 import oleksand.narvatov.giphyapp.data.local.helper.RemoveGifDaoHelper
 import oleksand.narvatov.giphyapp.data.paging.GiphyRemoteMediator
 import oleksand.narvatov.giphyapp.data.repository.base.AbsRepository
+import oleksand.narvatov.giphyapp.data.repository.base.GiphyRepository
 import oleksand.narvatov.giphyapp.model.local.Giphy
 import oleksand.narvatov.giphyapp.model.local.RemovedGiphy
 import timber.log.Timber
 import javax.inject.Inject
 
-@ViewModelScoped
 @OptIn(ExperimentalPagingApi::class)
-class GiphyRepository @Inject constructor(
+class GiphyRepositoryImpl @Inject constructor(
     private val giphyRemoteMediator: GiphyRemoteMediator,
     private val giphyDao: GiphyDao,
     private val getRemovedGifsIdsDaoHelper: GetRemovedGifsIdsDaoHelper,
     private val removeGifDaoHelper: RemoveGifDaoHelper,
-) : AbsRepository() {
+) : AbsRepository(), GiphyRepository {
 
-    fun searchGifs(
+    override fun searchGifs(
         query: String,
         config: PagingConfig,
     ) = Pager(
@@ -36,15 +36,15 @@ class GiphyRepository @Inject constructor(
         pagingSourceFactory = { giphyDao.getPagingSource() },
     ).flow
 
-    suspend fun clearKeys() = withContext(dispatchers.IO) {
+    override suspend fun clearKeys() = withContext(dispatchers.IO) {
         giphyDao.clear()
     }
 
-    suspend fun getRemovedGifsIds() = withContext(dispatchers.IO) {
+    override suspend fun getRemovedGifsIds() = withContext(dispatchers.IO) {
         getRemovedGifsIdsDaoHelper()
     }
 
-    suspend fun removeGif(giphy: Giphy) = withContext(dispatchers.IO) {
+    override suspend fun removeGif(giphy: Giphy) = withContext(dispatchers.IO) {
         removeGifDaoHelper(giphy)
     }
 

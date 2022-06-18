@@ -2,6 +2,7 @@ package oleksand.narvatov.giphyapp.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.withTransaction
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemoteKeyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemovedGiphyDao
@@ -18,12 +19,18 @@ import oleksand.narvatov.giphyapp.model.local.RemovedGiphy
     version = 4,
     exportSchema = false,
 )
-abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase(), TransactionManager {
 
     abstract fun getRemoteKeyDao() : RemoteKeyDao
 
     abstract fun getGiphyDao() : GiphyDao
 
     abstract fun getRemovedGiphyDao() : RemovedGiphyDao
+
+    override suspend fun runInTransaction(action: suspend () -> Unit) {
+        withTransaction {
+            action.invoke()
+        }
+    }
 
 }

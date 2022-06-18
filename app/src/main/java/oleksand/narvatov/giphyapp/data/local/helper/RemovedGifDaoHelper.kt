@@ -1,5 +1,6 @@
 package oleksand.narvatov.giphyapp.data.local.helper
 
+import oleksand.narvatov.giphyapp.data.local.TransactionManager
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemovedGiphyDao
 import oleksand.narvatov.giphyapp.model.local.Giphy
@@ -17,11 +18,14 @@ class GetRemovedGifsIdsDaoHelper @Inject constructor(
 class RemoveGifDaoHelper @Inject constructor(
     private val removedGiphyDao: RemovedGiphyDao,
     private val giphyDao: GiphyDao,
+    private val transactionManager: TransactionManager,
 ) {
 
     suspend operator fun invoke(giphy: Giphy) {
-        removedGiphyDao.insert(RemovedGiphy(giphy.id))
-        giphyDao.remove(giphy)
+        transactionManager.runInTransaction {
+            removedGiphyDao.insert(RemovedGiphy(giphy.id))
+            giphyDao.remove(giphy)
+        }
     }
 
 }

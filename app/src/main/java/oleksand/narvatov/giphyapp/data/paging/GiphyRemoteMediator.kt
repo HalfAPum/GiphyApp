@@ -6,7 +6,8 @@ import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemoteKeyDao
-import oleksand.narvatov.giphyapp.data.remote.helper.GiphyApiHelper
+import oleksand.narvatov.giphyapp.data.remote.helper.GiphySearchPagingApiHelper
+import oleksand.narvatov.giphyapp.data.remote.helper.base.SearchPagingApiHelper
 import oleksand.narvatov.giphyapp.model.local.Giphy
 import oleksand.narvatov.giphyapp.model.local.RemoteKey
 import javax.inject.Inject
@@ -15,7 +16,7 @@ import javax.inject.Inject
 class GiphyRemoteMediator @Inject constructor(
     private val giphyDao: GiphyDao,
     private val remoteKeyDao: RemoteKeyDao,
-    private val pagingApiHelper: GiphyApiHelper,
+    private val pagingApiHelper: SearchPagingApiHelper<Giphy>,
 ) : RemoteMediator<Int, Giphy>() {
     //TODO REALLY TEMP REMOVE IT
     public var query: String = ""
@@ -66,7 +67,7 @@ class GiphyRemoteMediator @Inject constructor(
     ): List<Giphy> {
         val offset = getOffset(page, limit)
 
-        return pagingApiHelper.searchGifs(query, offset, limit)
+        return pagingApiHelper.search(query, offset, limit)
     }
 
     private suspend fun List<Giphy>.saveToDatabase(

@@ -2,10 +2,8 @@ package oleksand.narvatov.giphyapp.domain
 
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.filter
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import oleksand.narvatov.giphyapp.data.repository.GiphyRepository
+import oleksand.narvatov.giphyapp.data.repository.base.GiphyRepository
 import oleksand.narvatov.giphyapp.model.local.Giphy
 import javax.inject.Inject
 
