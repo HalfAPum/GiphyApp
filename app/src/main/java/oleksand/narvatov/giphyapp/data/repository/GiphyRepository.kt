@@ -6,8 +6,9 @@ import androidx.paging.PagingConfig
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.withContext
 import oleksand.narvatov.giphyapp.data.local.dao.GiphyDao
-import oleksand.narvatov.giphyapp.data.local.dao.RemoteKeyDao
 import oleksand.narvatov.giphyapp.data.local.dao.RemovedGiphyDao
+import oleksand.narvatov.giphyapp.data.local.helper.GetRemovedGifsIdsDaoHelper
+import oleksand.narvatov.giphyapp.data.local.helper.RemoveGifDaoHelper
 import oleksand.narvatov.giphyapp.data.paging.GiphyRemoteMediator
 import oleksand.narvatov.giphyapp.data.repository.base.AbsRepository
 import oleksand.narvatov.giphyapp.model.local.Giphy
@@ -19,14 +20,15 @@ import javax.inject.Inject
 class GiphyRepository @Inject constructor(
     private val giphyRemoteMediator: GiphyRemoteMediator,
     private val giphyDao: GiphyDao,
-    private val removedGiphyDao: RemovedGiphyDao,
+    private val getRemovedGifsIdsDaoHelper: GetRemovedGifsIdsDaoHelper,
+    private val removeGifDaoHelper: RemoveGifDaoHelper,
 ) : AbsRepository() {
 
     fun searchGifs(
         query: String,
-        pagingConfig: PagingConfig,
+        config: PagingConfig,
     ) = Pager(
-        config = pagingConfig,
+        config = config,
         remoteMediator = giphyRemoteMediator.apply { this.query = query },
         pagingSourceFactory = { giphyDao.getPagingSource() },
     ).flow
@@ -36,12 +38,11 @@ class GiphyRepository @Inject constructor(
     }
 
     suspend fun getRemovedGifsIds() = withContext(dispatchers.IO) {
-        removedGiphyDao.getAll().map { it.id }
+        getRemovedGifsIdsDaoHelper()
     }
 
     suspend fun removeGif(giphy: Giphy) = withContext(dispatchers.IO) {
-        removedGiphyDao.insert(RemovedGiphy(giphy.id))
-        giphyDao.remove(giphy)
+        removeGifDaoHelper(giphy)
     }
 
 }

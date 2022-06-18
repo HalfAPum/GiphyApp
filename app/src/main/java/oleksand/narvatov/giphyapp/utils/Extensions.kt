@@ -2,7 +2,6 @@ package oleksand.narvatov.giphyapp.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 import android.widget.ImageView
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.paging.PagingData

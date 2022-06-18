@@ -1,4 +1,4 @@
-package oleksand.narvatov.giphyapp.ui.diffutil
+package oleksand.narvatov.giphyapp.ui.list.diffutil
 
 import androidx.recyclerview.widget.DiffUtil
 import oleksand.narvatov.giphyapp.model.local.Giphy

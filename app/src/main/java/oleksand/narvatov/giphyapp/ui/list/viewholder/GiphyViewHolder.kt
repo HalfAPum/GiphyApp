@@ -1,4 +1,4 @@
-package oleksand.narvatov.giphyapp.ui.viewholder
+package oleksand.narvatov.giphyapp.ui.list.viewholder
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

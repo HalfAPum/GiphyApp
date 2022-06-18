@@ -1,4 +1,4 @@
-package oleksand.narvatov.giphyapp.ui.decorator
+package oleksand.narvatov.giphyapp.ui.list.decorator
 
 import android.graphics.Rect
 import android.view.View

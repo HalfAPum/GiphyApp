@@ -9,26 +9,24 @@ import oleksand.narvatov.giphyapp.data.repository.GiphyRepository
 import oleksand.narvatov.giphyapp.model.local.Giphy
 import javax.inject.Inject
 
-class SearchPagingGifsUseCase @Inject constructor(
-    private val searchFilteredGifsUseCase: SearchFilteredGifsUseCase,
+class SearchFilteredGifsUseCase @Inject constructor(
     private val giphyRepository: GiphyRepository,
 ) {
 
     suspend operator fun invoke(
         query: String,
-        pageSize: Int = DEFAULT_PAGE_SIZE,
+        config: PagingConfig,
     ) : Flow<PagingData<Giphy>> {
-        if (query.isNotBlank()) {
-            giphyRepository.clearKeys()
-        }
+        val removedGifsIds = giphyRepository.getRemovedGifsIds()
 
-        return searchFilteredGifsUseCase(
+        return giphyRepository.searchGifs(
             query = query,
-            config = PagingConfig(pageSize)
-        )
+            config = config,
+        ).map {
+            it.filter { giphy ->
+                removedGifsIds.contains(giphy.id).not()
+            }
+        }
     }
 
-    companion object {
-        private const val DEFAULT_PAGE_SIZE = 20
-    }
 }

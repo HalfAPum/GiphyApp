@@ -1,4 +1,4 @@
-package oleksand.narvatov.giphyapp.ui
+package oleksand.narvatov.giphyapp.ui.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,14 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import oleksand.narvatov.giphyapp.R
 import oleksand.narvatov.giphyapp.data.remote.api.GiphyApi
 import oleksand.narvatov.giphyapp.databinding.ActivityMainBinding
-import oleksand.narvatov.giphyapp.ui.adapter.GiphyPagingAdapter
-import oleksand.narvatov.giphyapp.ui.decorator.GridItemDecorator
+import oleksand.narvatov.giphyapp.ui.list.adapter.GiphyPagingAdapter
+import oleksand.narvatov.giphyapp.ui.list.decorator.GridItemDecorator
 import oleksand.narvatov.giphyapp.ui.viewmodel.GiphyListViewModel
 import javax.inject.Inject
 

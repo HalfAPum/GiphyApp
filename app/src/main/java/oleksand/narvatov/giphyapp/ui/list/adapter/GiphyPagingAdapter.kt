@@ -1,10 +1,10 @@
-package oleksand.narvatov.giphyapp.ui.adapter
+package oleksand.narvatov.giphyapp.ui.list.adapter
 
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import oleksand.narvatov.giphyapp.model.local.Giphy
-import oleksand.narvatov.giphyapp.ui.diffutil.GiphyDiffUtil
-import oleksand.narvatov.giphyapp.ui.viewholder.GiphyViewHolder
+import oleksand.narvatov.giphyapp.ui.list.diffutil.GiphyDiffUtil
+import oleksand.narvatov.giphyapp.ui.list.viewholder.GiphyViewHolder
 import javax.inject.Inject
 
 class GiphyPagingAdapter @Inject constructor(

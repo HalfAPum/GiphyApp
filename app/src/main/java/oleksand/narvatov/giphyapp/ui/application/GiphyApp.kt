@@ -1,4 +1,4 @@
-package oleksand.narvatov.giphyapp.ui
+package oleksand.narvatov.giphyapp.ui.application
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
